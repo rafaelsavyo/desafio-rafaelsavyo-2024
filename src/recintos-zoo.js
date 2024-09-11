@@ -24,33 +24,31 @@ class RecintosZoo {
         if (typeof quantidade !== 'number' || quantidade <= 0) {
             return {erro: 'Quantidade inválida'}
         }
-
+        
         let recintosViaveis = []
-
-        for (let i = 0; i < recintos.length; i += 1) {
-            let recinto = recintos[i]
-
+        for (let c = 0; c < recintos.length; c += 1) {
+            let recinto = recintos[c]
             let biomaAnimal = animais[tipo].bioma
             let biomaValido = Array.isArray(biomaAnimal) ? biomaAnimal.includes(recinto.bioma) : biomaAnimal === recinto.bioma
-
+            
             if (biomaValido) {
                 let espaçoOcupado = quantidade * animais[tipo].tamanho
                 let espaçoLivre = recinto.tamanhoTotal
-
-                for (let j = 0; j < recinto.animaisExistentes.length; j += 1) {
-                    let animalExistente = recinto.animaisExistentes[j]
+                
+                for (let cont = 0; cont < recinto.animaisExistentes.length; cont += 1) {
+                    let animalExistente = recinto.animaisExistentes[cont]
                     espaçoLivre -= animalExistente.quantidade * animais[animalExistente.tipo].tamanho
                 }
-
                 if (espaçoOcupado <= espaçoLivre) {
                     let podeHospedar = true
                     if (tipo === 'MACACO' && recinto.animaisExistentes.length === 0) {
                         podeHospedar = false
                     }
+                    
                     if (tipo === 'HIPOPOTAMO' && recinto.bioma !== 'savana e rio') {
                         podeHospedar = false
                     }
-
+                    
                     if (podeHospedar) {
                         recintosViaveis.push(`Recinto ${recinto.numero} (espaço livre: ${espaçoLivre - espaçoOcupado} total: ${recinto.tamanhoTotal})`)
                     }
@@ -61,9 +59,7 @@ class RecintosZoo {
         if (recintosViaveis.length === 0) {
             return{erro: 'Não há recinto viável'}
         }
-
         return {recintosViaveis: recintosViaveis.sort()}
     }
 }
-
 export { RecintosZoo as RecintosZoo };
